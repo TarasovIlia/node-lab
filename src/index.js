@@ -2,7 +2,6 @@ const express = require('express');
 const products = require('./products');
 const app = express();
 const os = require('os');
-const cluster = require('cluster');
 
 const name = process.env.USERNAME.replace('.',' ');
 const cpus = os.cpus().length
