@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",                                
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "outDir": "prod",
+    "skipLibCheck": true,
+    "paths": {
+      "*": [
+          "./node_modules/*"
+      ]
+    },
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*"
+]
+}

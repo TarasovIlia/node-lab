@@ -1,3 +1,4 @@
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const fs = require('fs') 
 const path = require('path');
 
@@ -6,13 +7,32 @@ fs.readdirSync('node_modules')
     .filter(x => ['.bin'].indexOf(x) === -1)
     .forEach(mod => nodeModules[mod] = 'comminjs ' + mod)
 
+const isDev = process.env.NODE_ENV === 'development'
+
+const filename = ext => isDev ? `[name].${ext}` : `[name].${ext}`;
+
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
-    entry: './index.js',
-    target: 'node',
+    context: path.resolve(__dirname, './src'),
+    entry: './main',
     output: {
-        path: path.join(__dirname, 'build'),
-        filename: '[name].js'
+        filename: filename('js'),
+        path: path.resolve(__dirname, 'build'),
     },
-    externals: nodeModules
+    target: 'node',
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    externals: nodeModules,
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: '/node_modules/'
+            }
+        ]
+    },
+    plugins: [
+        new CleanWebpackPlugin()
+    ]
 }
