@@ -1,34 +1,48 @@
 const express = require('express');
-//const exphbs = require('express-handlebars');
-const { MongoClient } = require('mongodb')
+const mongoose = require('mongoose')
+const { Schema } = mongoose;
 
-
-const products = require('./products');
 const app = express();
-const os = require('os');
-
-const name = process.env.USERNAME.replace('.',' ');
-const cpus = os.cpus().length;
-
 const host = 'http://localhost:'
 const port = process.env.PORT || 4200
+
 const localUrl = url => url ?  `${host}${port}/${url}` : `${host}${port}`
 
-const client = new MongoClient('mongodb+srv://IliyaTarasav:1oviver1@cluster0.esyae.mongodb.net/products')
-
-
-app.get('/', (req,res) => {
-    res.send(`<h2>Hello ${name}<h2/>`);
+const categorySchema = new Schema({
+    displayName: String,
+    createdAt: Date,
 })
+const productSchema = new Schema({
+    displayName: String,
+    category: categorySchema,
+    createdAt: Date,
+    totalRating: Number,
+    price: Number,
+})
+
+const Product = mongoose.model('products', productSchema)
+const Category = mongoose.model('catergry', categorySchema)
+
+// const newGame = new Product({
+//     displayName: "SpongeBob SquarePants: Battle for Bikini Bottom – Rehydrated",
+//     category: new Category({displayName:"Adventure"}),
+//     createdAt: Date.now(),
+//     totalRating: 8,
+//     price: 20
+// })
 
 async function start() {
     try {
-        await client.connect()
-        console.log('Connected');
-        const products = client.db().collection('products');
-        await products.insertOne({displayName:"God Of War", price:50});
-        const game = await products.findOne({displayName:'God Of War'})
-        console.log(game )
+        await mongoose.connect('mongodb+srv://IliyaTarasav:1oviver1@cluster0.esyae.mongodb.net/products')
+        console.log('\n\nConnected');
+        const game = await Product.find({})
+        //await newGame.save();
+        app.get('/', (req,res) => {
+            res.send(`<a href=${localUrl("products")}>to products<a>`);
+        })
+        app.get('/products', (req,res) => {
+            res.send(`<h2>All game: ${game}<h2/>`);
+        })
         app.listen(port, () => {
             console.log(`\n\nserver is listening on ${localUrl()}\n\nserver is listening on ${localUrl('products')}`)
         })
