@@ -1,6 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose')
-const { Schema } = mongoose;
+const mongoose = require('mongoose');
+const Product = require('./schema');
+const Category = require('./schema')
 
 const app = express();
 const host = 'http://localhost:'
@@ -8,28 +9,13 @@ const port = process.env.PORT || 4200
 
 const localUrl = url => url ?  `${host}${port}/${url}` : `${host}${port}`
 
-const categorySchema = new Schema({
-    displayName: String,
-    createdAt: Date,
+const newGame = new Product({
+    displayName: "test",
+    category: new Category({displayName:"TEST"}),
+    createdAt: Date.now(),
+    totalRating: 999,
+    price: 1
 })
-const productSchema = new Schema({
-    displayName: String,
-    category: categorySchema,
-    createdAt: Date,
-    totalRating: Number,
-    price: Number,
-})
-
-const Product = mongoose.model('products', productSchema)
-const Category = mongoose.model('catergry', categorySchema)
-
-// const newGame = new Product({
-//     displayName: "SpongeBob SquarePants: Battle for Bikini Bottom – Rehydrated",
-//     category: new Category({displayName:"Adventure"}),
-//     createdAt: Date.now(),
-//     totalRating: 8,
-//     price: 20
-// })
 
 async function start() {
     try {
@@ -41,7 +27,7 @@ async function start() {
             res.send(`<a href=${localUrl("products")}>to products<a>`);
         })
         app.get('/products', (req,res) => {
-            res.send(`<h2>All game: ${game}<h2/>`);
+            res.send(`<h2>All game: ${game[0].displayName}<h2/>`);
         })
         app.listen(port, () => {
             console.log(`\n\nserver is listening on ${localUrl()}\n\nserver is listening on ${localUrl('products')}`)
