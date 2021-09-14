@@ -4,7 +4,9 @@
   "description": "node server",
   "private": true,
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,8 @@
     "mongoose": "^6.0.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0"
   }
 }
