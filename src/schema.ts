@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import mongoose from 'mongoose'
+const { Schema } = mongoose
 
 interface Category {
   displayName: String;
@@ -8,8 +8,8 @@ interface Category {
 
 const categorySchema = new Schema({
   displayName: String,
-  createdAt: Date,
-});
+  createdAt: Date
+})
 
 interface Production {
   displayName: String;
@@ -24,10 +24,10 @@ const productSchema = new Schema({
   category: categorySchema,
   createdAt: Date,
   totalRating: Number,
-  price: Number,
-});
+  price: Number
+})
 
-const product = mongoose.model('products', productSchema);
+const product = mongoose.model('products', productSchema)
 const category = mongoose.model('catergry', categorySchema);
 
-(module.exports = product), category;
+(module.exports = product), category

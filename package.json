@@ -7,7 +7,9 @@
     "start": "nodemon build/main.js",
     "dev": "cross-env MODE_ENV=development webpack --mode development",
     "build": "cross-env MODE_ENV=production webpack --mode production",
-    "style": "prettier --config .prettierrc.json --write src/**/*.ts"
+    "prettier": "prettier --config .prettierrc.json --write src/**/*.ts",
+    "lint": "eslint src/**",
+    "fix": "eslint --fix src/**"
   },
   "husky" : {
     "hooks": {
