@@ -16,26 +16,36 @@ game.total_rating = 10;
 game.category = 'Action';
 game.create_at = new Date(2013,3,3);
 
-createConnection({
-  type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: '1oviver1',
-  database: 'products',
-  entities: [
-    Games
-  ],
-  synchronize: true,
-  logging: false
-})
-.then(async connection => {
-  const gamesRepository = connection.getRepository(Games)
+async function start() {
+  try {
+    await createConnection({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '1oviver1',
+      database: 'products',
+      entities: [
+        Games
+      ],
+      synchronize: true,
+      logging: false
+    })
+    .then ( async connection => {
+        const gamesRepository = connection.getRepository(Games)
+      
+        await gamesRepository.save(game)
+        const allGame = await gamesRepository.find()
+        console.log(allGame)
+      
+        
+        app.listen(PORT, () => console.log(`\n\nserver run on port ${localUrl('')}`))
+      })
+      
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-  await gamesRepository.save(game)
-  const allGame = await gamesRepository.find()
-  console.log(allGame)
+start()
 
-  
-  app.listen(PORT, () => console.log(`\n\nserver run on port ${localUrl('')}`))
-}).catch(error => console.log(error))
