@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const Category =  require('./catrgory') 
+const Category =  require('./category') 
 const { Schema } = mongoose
 
 

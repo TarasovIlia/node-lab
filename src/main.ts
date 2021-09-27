@@ -1,38 +1,28 @@
 import express from 'express'
-import mongoose from 'mongoose'
 const app = express()
-const Product = require('../model/product')
-const Category = require('../model/category')
 const config = require('config')
+//import mongoose from 'mongoose'
+
+//postreSQL
+const pgp = require('pg-promise')();
+const db = pgp('postgres://postgres:1oviver1@localhost:5432/dvdrental');
+
+// const Product = require('./model/product')
+// const Category = require('./model/category')
 
 const HOST = config.get('host')
-const PORT = config.get('post') || 4200
+const PORT = config.get('port') || 4200
 const MONGO_URL = config.get('mongoUrl')
 
 const localUrl = (url: String) => (url ? `${HOST}${PORT}/${url}` : `${HOST}${PORT}`)
 
-const newGame = new Product({
-  displayName: 'test',
-  category: new Category({ displayName: 'TEST' }),
-  createdAt: Date.now(),
-  totalRating: 99,
-  price: 1
-})
 
 async function start () {
   try {
-    await mongoose.connect(MONGO_URL)
-    console.log('\n\nConnected')
-    const game = await Product.find({})
-    app.get('/', (req, res) => {
-      res.send(`<a href=${localUrl('products')}>to products<a>`)
-    })
-    app.get('/products', (req, res) => {
-      res.send(`<h2>All game: ${game[0].displayName}<h2/>`)
-    })
-    app.listen(PORT, () => console.log(`\n\nserver is listening on ${localUrl('')}\n\nserver is listening on ${localUrl('products')}`))
+    const customer =  await db.many('SELECT first_name FROM customer')
+    app.listen(PORT, () => console.log(`\n\nserver is listening on ${localUrl('')}`))
+    console.log(customer)
   } catch (err) {
-    console.log(err.message)
   }
 }
 

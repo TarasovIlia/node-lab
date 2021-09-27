@@ -11,6 +11,6 @@ const Category = new Schema({
   createdAt: Date
 })
 
-const category = mongoose.model('catergry', Category);
+const category = mongoose.model('category', Category);
 
 module.exports = category
