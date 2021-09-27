@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",                                
+    "target": "es6",                                
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
@@ -8,6 +8,9 @@
     "baseUrl": ".",
     "outDir": "prod",
     "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
     "paths": {
       "*": [
           "./node_modules/*"

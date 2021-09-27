@@ -1,29 +1,41 @@
 import express from 'express'
+import 'reflect-metadata'
+import { createConnection } from 'typeorm' 
+import { Games } from './model/Products'
 const app = express()
 const config = require('config')
-//import mongoose from 'mongoose'
-
-//postreSQL
-const pgp = require('pg-promise')();
-const db = pgp('postgres://postgres:1oviver1@localhost:5432/dvdrental');
-
-// const Product = require('./model/product')
-// const Category = require('./model/category')
 
 const HOST = config.get('host')
 const PORT = config.get('port') || 4200
-const MONGO_URL = config.get('mongoUrl')
-
 const localUrl = (url: String) => (url ? `${HOST}${PORT}/${url}` : `${HOST}${PORT}`)
 
+const game = new Games()
+game.display_name = 'The Witcher';
+game.price = 56;
+game.total_rating = 10;
+game.category = 'Action';
+game.create_at = new Date(2013,3,3);
 
-async function start () {
-  try {
-    const customer =  await db.many('SELECT first_name FROM customer')
-    app.listen(PORT, () => console.log(`\n\nserver is listening on ${localUrl('')}`))
-    console.log(customer)
-  } catch (err) {
-  }
-}
+createConnection({
+  type: 'postgres',
+  host: 'localhost',
+  port: 5432,
+  username: 'postgres',
+  password: '1oviver1',
+  database: 'products',
+  entities: [
+    Games
+  ],
+  synchronize: true,
+  logging: false
+})
+.then(async connection => {
+  const gamesRepository = connection.getRepository(Games)
 
-start()
+  await gamesRepository.save(game)
+  const allGame = await gamesRepository.find()
+  console.log(allGame)
+
+  
+  app.listen(PORT, () => console.log(`\n\nserver run on port ${localUrl('')}`))
+}).catch(error => console.log(error))
