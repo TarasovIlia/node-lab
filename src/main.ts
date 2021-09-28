@@ -2,6 +2,7 @@ import express from 'express'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm' 
 import { Games } from './model/Products'
+import logger from './logger'
 const app = express()
 const config = require('config')
 
@@ -34,15 +35,16 @@ async function start() {
     .then ( async connection => {
         const gamesRepository = connection.getRepository(Games)
       
-        const allGame = await gamesRepository.find()
-        console.log(allGame)
+        const newGame = await gamesRepository.findOne(3)
+        if (newGame)
+        logger.info(`New game created: ${newGame.display_name}`)
       
         
         app.listen(PORT, () => console.log(`\n\nserver run on port ${localUrl('')}`))
       })
 
   } catch (error) {
-    console.log(error)
+    logger.error(`Unable to connect: ${error}`)
     } 
 }
 
