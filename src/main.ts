@@ -10,12 +10,12 @@ const HOST = config.get('host')
 const PORT = config.get('port') || 4200
 const localUrl = (url: String) => (url ? `${HOST}${PORT}/${url}` : `${HOST}${PORT}`)
 
-// const game = new Games()
-// game.display_name = 'The Witcher';
-// game.price = 56;
-// game.total_rating = 10;
-// game.category = 'Action';
-// game.create_at = new Date(2013,3,3);
+const game = new Games()
+game.display_name = 'Call of Duty Black Ops 4';
+game.price = 44;
+game.total_rating = 8;
+game.category = 'Action';
+game.create_at = new Date(2019,3,3);
 
 async function start() {
   try {
@@ -35,12 +35,12 @@ async function start() {
     .then ( async connection => {
         const gamesRepository = connection.getRepository(Games)
       
-        const newGame = await gamesRepository.findOne(3)
+        const newGame = await gamesRepository.findOne(7)
         if (newGame)
-        logger.info(`New game created: ${newGame.display_name}`)
+        logger.info(`all game: `, newGame)
       
         
-        app.listen(PORT, () => console.log(`\n\nserver run on port ${localUrl('')}`))
+        app.listen(PORT, () => logger.info(`\n\nserver run on port ${localUrl('')}`))
       })
 
   } catch (error) {
