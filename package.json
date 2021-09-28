@@ -4,7 +4,7 @@
   "description": "node server",
   "private": true,
   "scripts": {
-    "start": "nodemon build/main.js",
+    "start": "npm run dev && nodemon build/main.js",
     "dev": "cross-env MODE_ENV=development webpack --mode development",
     "build": "cross-env MODE_ENV=production webpack --mode production",
     "prettier": "prettier --config .prettierrc.json --write src/**/*.ts",

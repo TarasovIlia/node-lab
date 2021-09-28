@@ -2,7 +2,6 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const fs = require('fs') 
 const path = require('path');
 
-
 const isDev = process.env.NODE_ENV === 'development'
 
 const filename = ext => isDev ? `[name].${ext}` : `[name].${ext}`;
