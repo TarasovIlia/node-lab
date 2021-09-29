@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Categories } from "./Categories";
 
 @Entity()
 export class Games {
@@ -17,7 +18,7 @@ export class Games {
     
     @Column()
     create_at: Date;
-    
-    @Column()
-    category: string;
+
+    @ManyToOne(()=> Categories, category => category.games)
+    category: Categories
 }
