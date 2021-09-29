@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/find', async function(req,res) {
     try {
-        //const {id} = req.body
+        //const {target} = req.body
         const target = 4
         const params = typeof target === 'number' ? 'id' : 'display_name'
         const creteria = typeof target === 'number' ? {id : target} : {display_name : target}

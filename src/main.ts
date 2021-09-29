@@ -15,6 +15,7 @@ app.use('/api/categories', require('./routes/get.all.categories'))
 app.use('/api/games', require('./routes/get.all.game'))
 app.use('/api/games', require('./routes/add'))
 app.use('/api/games', require('./routes/find.game'))
+app.use('/api/games', require('./routes/filter.game'))
 
 async function start() {
   try {
