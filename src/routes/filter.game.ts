@@ -6,14 +6,14 @@ const router = Router()
 
 router.get('/filter', async function(req,res) {
     try {
-        //const {target} = req.body
-        const target = {hig : 40, min : 30}
+        const {max, min} = req.query
+        console.log(req.query)
         const game = await getRepository(Games)
             .createQueryBuilder('games')
-            .where(`games.price > :minPrice`, {minPrice : target.min} )
-            .andWhere(`games.price < :maxPrice`, {maxPrice : target.hig} )
+            .where(`games.price > :minPrice`, {minPrice : min} )
+            .andWhere(`games.price < :maxPrice`, {maxPrice : max} )
             .getMany();
-        res.send(game)
+        res.status(201).json(game)
     } catch (error) {
         console.log(error)
     }
